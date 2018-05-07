@@ -3,7 +3,8 @@ import { AsyncStorage } from 'react-native'
 export const FLASH_CARD_STORAGE_KEY = 'UdicyFlashcards:categories'
 
 function getDummyData() {
-    return {
+
+    const data = {
         React: {
             title: 'React',
             questions: [
@@ -27,6 +28,10 @@ function getDummyData() {
             ]
         }
     }
+
+    AsyncStorage.setItem(FLASH_CARD_STORAGE_KEY, data)
+
+    return data
 }
 
 export function retrieveData(results) {
@@ -35,7 +40,7 @@ export function retrieveData(results) {
         : JSON.parse(results)
 }
 
-export function fetchCardsData() {
+export function getDecks() {
     return AsyncStorage.getItem(FLASH_CARD_STORAGE_KEY)
         .then(retrieveData)
 }
@@ -54,6 +59,23 @@ export function addCard( { category, title, question} ) {
             }
         }
     }))
+}
+
+export function addDeck( { category, title} ) {
+    return AsyncStorage.mergeItem(FLASH_CARD_STORAGE_KEY, JSON.stringify({
+        [category]: {
+            title
+        }
+    }))
+}
+
+export function addCategory( { category } ) {
+    return getDecks()
+        .then( (data) => {
+            data[category] = {}
+            AsyncStorage.setItem(FLASH_CARD_STORAGE_KEY, data)
+            return data
+        })
 }
 
 //TODO: remove Card?
