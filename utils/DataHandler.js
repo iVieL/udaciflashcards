@@ -29,12 +29,15 @@ function getDummyData() {
         }
     }
 
-    AsyncStorage.setItem(FLASH_CARD_STORAGE_KEY, data)
+    AsyncStorage.setItem(FLASH_CARD_STORAGE_KEY, JSON.stringify(data))
 
+    console.log('SAVING DATA!!! CHECK THIS!!');
     return data
 }
 
 export function retrieveData(results) {
+    console.log('Retrieving DATA:', JSON.parse(results));
+
     return results == null
         ? getDummyData()
         : JSON.parse(results)
