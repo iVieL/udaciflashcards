@@ -1,8 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { getDecks } from "./utils/DataHandler"
-import { createStore } from 'redux'
-import { Provider } from 'react-redux'
+import {StyleSheet, Text, View} from 'react-native';
+import {getDecks} from "./utils/DataHandler"
+import {createStore} from 'redux'
+import {Provider} from 'react-redux'
 
 
 /*
@@ -47,20 +47,36 @@ import { Provider } from 'react-redux'
  */
 
 export default class App extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>{JSON.stringify(getDecks())}</Text>
-      </View>
-    );
-  }
+    state = {
+        decks: {}
+    }
+
+    componentDidMount() {
+        getDecks()
+            .then((json) => {
+                console.log('setting state: ', json)
+                this.setState(() => ({
+                    decks: JSON.stringify(json)
+                }))
+            }).done()
+    }
+
+    render() {
+        const { decks } = this.state
+
+        return (
+            <View style={styles.container}>
+                <Text>{decks}</Text>
+            </View>
+        );
+    }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
 });

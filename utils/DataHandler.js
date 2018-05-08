@@ -36,11 +36,12 @@ function getDummyData() {
 }
 
 export function retrieveData(results) {
-    console.log('Retrieving DATA:', JSON.parse(results));
-
-    return results == null
+    const data = results == null
         ? getDummyData()
         : JSON.parse(results)
+
+    console.log('Retrieving DATA:', data);
+    return data
 }
 
 export function getDecks() {
