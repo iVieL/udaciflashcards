@@ -3,6 +3,7 @@ import {StyleSheet, Text, View} from 'react-native';
 import {getDecks} from "./utils/DataHandler"
 import {createStore} from 'redux'
 import {Provider} from 'react-redux'
+import { TabNavigator, StackNavigator } from 'react-navigation'
 
 
 /*
@@ -46,9 +47,21 @@ import {Provider} from 'react-redux'
 
  */
 
+const MainNavigator = StackNavigator({
+    Home: {
+        screen: DeckList
+    },
+    AddDeck: {
+        screen: NewDeck
+    },
+    AddQuestion: {
+        screen: AddEntry
+    }
+
+})
 export default class App extends React.Component {
     state = {
-        decks: {}
+        decks: null
     }
 
     componentDidMount() {
