@@ -3,7 +3,10 @@ import {StyleSheet, Text, View} from 'react-native';
 import {getDecks} from "./utils/DataHandler"
 import {createStore} from 'redux'
 import {Provider} from 'react-redux'
-import { TabNavigator, StackNavigator } from 'react-navigation'
+import { TabNavigator, createStackNavigator } from 'react-navigation'
+import DeckList from './components/DeckList'
+import NewDeck from './components/NewDeck'
+import AddEntry from './components/AddEntry'
 
 
 /*
@@ -47,9 +50,15 @@ import { TabNavigator, StackNavigator } from 'react-navigation'
 
  */
 
-const MainNavigator = StackNavigator({
-    Home: {
+const Tabs = TabNavigator({
+    ShowDeckList: {
         screen: DeckList
+    }
+})
+
+const MainNavigator = createStackNavigator({
+    Home: {
+        screen: Tabs
     },
     AddDeck: {
         screen: NewDeck
@@ -59,6 +68,7 @@ const MainNavigator = StackNavigator({
     }
 
 })
+
 export default class App extends React.Component {
     state = {
         decks: null
@@ -78,9 +88,11 @@ export default class App extends React.Component {
         const { decks } = this.state
 
         return (
-            <View style={styles.container}>
-                <Text>{decks}</Text>
-            </View>
+            <Provider store={ createStore(reducer) }>
+                <View style={styles.container}>
+                    <Text>{decks}</Text>
+                </View>
+            </Provider>
         );
     }
 }
