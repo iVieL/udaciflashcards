@@ -1,8 +1,8 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {getDecks} from "./utils/DataHandler"
+import {View} from 'react-native';
 import {createStore} from 'redux'
 import {Provider} from 'react-redux'
+import reducer from './_reducers'
 import { TabNavigator, createStackNavigator } from 'react-navigation'
 import DeckList from './components/DeckList'
 import NewDeck from './components/NewDeck'
@@ -51,6 +51,9 @@ import AddEntry from './components/AddEntry'
  */
 
 const Tabs = TabNavigator({
+    Main: {
+        screen: AddEntry
+    },
     ShowDeckList: {
         screen: DeckList
     }
@@ -70,38 +73,15 @@ const MainNavigator = createStackNavigator({
 })
 
 export default class App extends React.Component {
-    state = {
-        decks: null
-    }
-
-    componentDidMount() {
-        getDecks()
-            .then((json) => {
-                console.log('setting state: ', json)
-                this.setState(() => ({
-                    decks: JSON.stringify(json)
-                }))
-            }).done()
-    }
 
     render() {
-        const { decks } = this.state
 
         return (
-            <Provider store={ createStore(reducer) }>
-                <View style={styles.container}>
-                    <Text>{decks}</Text>
+            <Provider store={createStore(reducer)}>
+                <View style={{flex: 1}}>
+                    <MainNavigator />
                 </View>
             </Provider>
         );
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-});
