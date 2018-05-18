@@ -3,7 +3,7 @@ import {View} from 'react-native';
 import {createStore} from 'redux'
 import {Provider} from 'react-redux'
 import reducer from './_reducers'
-import { TabNavigator, createStackNavigator } from 'react-navigation'
+import { createMaterialTopTabNavigator, createStackNavigator } from 'react-navigation'
 import DeckList from './components/DeckList'
 import NewDeck from './components/NewDeck'
 import AddEntry from './components/AddEntry'
@@ -50,12 +50,12 @@ import AddEntry from './components/AddEntry'
 
  */
 
-const Tabs = TabNavigator({
-    Main: {
-        screen: AddEntry
+const Tabs = createMaterialTopTabNavigator({
+    Decks: {
+        screen: DeckList
     },
     ShowDeckList: {
-        screen: DeckList
+        screen: NewDeck
     }
 })
 

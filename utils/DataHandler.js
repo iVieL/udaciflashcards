@@ -36,11 +36,10 @@ function getDummyData() {
 }
 
 export function retrieveData(results) {
-    const data = results == null
+    const data = results === null
         ? getDummyData()
         : JSON.parse(results)
 
-    console.log('Retrieving DATA:', data);
     return data
 }
 
