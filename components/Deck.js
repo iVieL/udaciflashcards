@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
     },
     listItem: {
         height: 75,
+        alignItems: 'center'
     },
     itemTitle: {
         fontSize: 25

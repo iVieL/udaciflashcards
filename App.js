@@ -54,7 +54,7 @@ const Tabs = createMaterialTopTabNavigator({
     Decks: {
         screen: DeckList
     },
-    ShowDeckList: {
+    'Dash Board': {
         screen: NewDeck
     }
 })
