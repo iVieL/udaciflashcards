@@ -18,9 +18,9 @@ export default class DeckList extends Component {
     }
 
     render() {
-        const { decks } = this.state
+        const {decks} = this.state
 
-        if(decks === null) {
+        if (decks === null) {
             return (
                 <View>
                     <Text>Loading</Text>
@@ -32,13 +32,17 @@ export default class DeckList extends Component {
 
         return (
             <View style={styles.container}>
-
-               <FlatList
-                dataSource={decks}
-                renderRow={(rowData) => <Text>{rowData}</Text>
-                }
-
-               />
+                <FlatList
+                    data={ Object.values(decks) }
+                    renderItem={({item}) =>
+                        <Deck
+                            item={item}
+                            style={styles.listItem}
+                            listView
+                        />
+                    }
+                    keyExtractor={(item)=>item.title}
+                />
             </View>
         )
     }
