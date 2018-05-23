@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {StyleSheet, Text, View, FlatList} from 'react-native';
+import {StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
 import {getDecks} from "../utils/DataHandler";
 import Deck from './Deck'
 
@@ -35,11 +35,16 @@ export default class DeckList extends Component {
                 <FlatList
                     data={ Object.values(decks) }
                     renderItem={({item}) =>
+                        <TouchableOpacity onPress={ () =>
+                            this.props.navigation.navigate('SingleDeck', {singleView: true})
+                        }>
+
                         <Deck
                             item={item}
                             style={styles.listItem}
                             listView
                         />
+                        </TouchableOpacity>
                     }
                     keyExtractor={(item)=>item.title}
                 />

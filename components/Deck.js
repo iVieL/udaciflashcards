@@ -5,8 +5,11 @@ import {getDecks} from "../utils/DataHandler";
 export default class Deck extends Component {
 
     render() {
-        const {item, listView, singleView} = this.props
+        const {item, listView, navigation } = this.props
+        const singleView = !!navigation ? navigation.getParam('singleView', false): false
+
         console.log('PROPS!! ', this.props);
+
         if(listView) {
             return (
                 <View key={item.title} style={styles.listItem}>
@@ -20,12 +23,19 @@ export default class Deck extends Component {
             )
         }
         if(singleView) {
+            //todo: show single deck info and add new question option, either start quiz option
             return (
                 <View>
                     <Text>Sinble View!!</Text>
                 </View>
             )
         }
+
+        return (
+            <View>
+                <Text>Nothing to show!</Text>
+            </View>
+        )
 
     }
 }

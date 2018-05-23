@@ -7,6 +7,7 @@ import { createMaterialTopTabNavigator, createStackNavigator } from 'react-navig
 import DeckList from './components/DeckList'
 import NewDeck from './components/NewDeck'
 import AddEntry from './components/AddEntry'
+import Deck from './components/Deck'
 
 
 /*
@@ -62,6 +63,9 @@ const Tabs = createMaterialTopTabNavigator({
 const MainNavigator = createStackNavigator({
     Home: {
         screen: Tabs
+    },
+    SingleDeck: {
+        screen: Deck
     },
     AddDeck: {
         screen: NewDeck
