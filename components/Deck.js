@@ -1,36 +1,79 @@
 import React, {Component} from 'react'
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {getDecks} from "../utils/DataHandler";
+
+
+function ViewCountQuestionComponent( { cards_count }) {
+    return (
+        <TouchableOpacity onPress={ () =>
+            this.props.navigation.navigate('SingleDeck', {singleView: true, title: item.title})
+        }>
+            <View>
+                <Text style={styles.itemContentText}>
+                    View Cards ({cards_count})
+                </Text>
+
+            </View>
+        </TouchableOpacity>
+    )
+}
+
+function SingleViewComponent( { data }) {
+    console.log('SingleViewComponent', data);
+    return (
+        <View>
+            <Text>{data.title}</Text>
+            <Text>{data.questions.length}</Text>
+        </View>
+    )
+}
+/*
+        <FlatList
+            data={ Object.values(decks) }
+            renderItem={({item}) =>
+                <TouchableOpacity onPress={ () =>
+                    this.props.navigation.navigate('SingleDeck', {singleView: true, title: item.title})
+                }>
+
+                    <Deck
+                        item={item}
+                        style={styles.listItem}
+                        listView
+                    />
+                </TouchableOpacity>
+            }
+            keyExtractor={(item)=>item.title}
+        />
+*/
+
 
 export default class Deck extends Component {
 
+    static navigationOptions = ({ navigation }) => ({
+        title: `${navigation.state.params.title}`,
+        headerTitleStyle : {textAlign: 'center',alignSelf:'center'},
+        headerStyle:{
+            backgroundColor:'white',
+        },
+    });
+
     render() {
-        const {item, listView, navigation } = this.props
-        const singleView = !!navigation ? navigation.getParam('singleView', false): false
+        const { navigation } = this.props
 
-        console.log('PROPS!! ', this.props);
+        console.log('Navigation!! ', navigation);
 
-        if(listView) {
-            return (
-                <View key={item.title} style={styles.listItem}>
-                    <Text style={styles.itemTitle}>
-                        {item.title}
-                    </Text>
-                    <Text style={styles.itemContentText}>
-                        {item.questions.length} Cards
-                    </Text>
-                </View>
-            )
-        }
-        if(singleView) {
-            //todo: show single deck info and add new question option, either start quiz option
+
+        if(!!navigation) {
             return (
                 <View>
-                    <Text>Sinble View!!</Text>
+                    <SingleViewComponent data={{
+                        title: navigation.getParam('title', ''),
+                        questions: navigation.getParam('questions', [])
+                    }}/>
                 </View>
             )
-        }
 
+        }
         return (
             <View>
                 <Text>Nothing to show!</Text>

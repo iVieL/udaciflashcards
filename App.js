@@ -72,6 +72,9 @@ const MainNavigator = createStackNavigator({
     },
     AddQuestion: {
         screen: AddEntry
+    },
+    ViewQuestions: {
+        screen: AddEntry
     }
 
 })

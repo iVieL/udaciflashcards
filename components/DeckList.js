@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
 import {getDecks} from "../utils/DataHandler";
-import Deck from './Deck'
+import DeckSummary from "./DeckSummary";
 
 export default class DeckList extends Component {
     state = {
@@ -36,13 +36,15 @@ export default class DeckList extends Component {
                     data={ Object.values(decks) }
                     renderItem={({item}) =>
                         <TouchableOpacity onPress={ () =>
-                            this.props.navigation.navigate('SingleDeck', {singleView: true})
+                            this.props.navigation.navigate('SingleDeck', {
+                                title: item.title,
+                                questions: item.questions
+                            })
                         }>
 
-                        <Deck
+                        <DeckSummary
                             item={item}
                             style={styles.listItem}
-                            listView
                         />
                         </TouchableOpacity>
                     }
