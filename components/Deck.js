@@ -1,49 +1,125 @@
 import React, {Component} from 'react'
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {getDecks} from "../utils/DataHandler";
 
 
-function ViewCountQuestionComponent( { cards_count }) {
-    return (
-        <TouchableOpacity onPress={ () =>
-            this.props.navigation.navigate('SingleDeck', {singleView: true, title: item.title})
-        }>
-            <View>
-                <Text style={styles.itemContentText}>
-                    View Cards ({cards_count})
-                </Text>
+class ViewCountQuestionItem extends Component {
 
-            </View>
-        </TouchableOpacity>
-    )
+    render() {
+        const { counter, navigation } = this.props
+        return (
+            <TouchableOpacity onPress={() =>
+                navigation.navigate(
+                    'ViewQuestions',
+                    {
+                        singleView: true })}>
+                <View>
+                    <Text style={styles.itemContentText}>
+                        View Cards ({counter})
+                    </Text>
+
+                </View>
+            </TouchableOpacity>
+        )
+    }
 }
 
-function SingleViewComponent( { data }) {
-    console.log('SingleViewComponent', data);
+class ViewAddCardItem extends Component {
+    render() {
+        //todo: pass deck id to here
+        const { deckName, navigation } = this.props
+        console.log("Add Card to: ", deckName);
+
+        return (
+            <TouchableOpacity onPress={() =>
+                navigation.navigate(
+                    'AddQuestion',
+                    {
+                        deck: deckName })}>
+                <View>
+                    <Text style={styles.itemContentText}>
+                        Add Card
+                    </Text>
+
+                </View>
+            </TouchableOpacity>
+
+        )
+    }
+}
+
+class ViewStartQuizItem extends Component {
+    render() {
+        const { deckName, navigation } = this.props
+
+        return (
+            <TouchableOpacity onPress={() =>
+                navigation.navigate(
+                    'StartQuiz',
+                    {
+                        deck: deckName })}>
+                <View>
+                    <Text style={styles.itemContentText}>
+                        Start Quiz with this deck!
+                    </Text>
+
+                </View>
+            </TouchableOpacity>
+
+        )
+    }
+}
+
+function SingleViewComponent( { data, navigator }) {
+    const COUNTER ='counter'
+    const ADD_QUESTION = 'add_question'
+    const START_QUIZ = 'start_quiz'
+
+
     return (
-        <View>
-            <Text>{data.title}</Text>
-            <Text>{data.questions.length}</Text>
-        </View>
+        <FlatList
+            data={ [COUNTER, ADD_QUESTION, START_QUIZ]}
+            renderItem={({item}) => {
+                switch(item) {
+                    case COUNTER:
+                        return (
+                            <View style={styles.listItem}>
+                                <ViewCountQuestionItem
+                                    counter={data.questions.length}
+                                    navigation={navigator}/>
+                            </View>
+                        )
+                    case ADD_QUESTION:
+                        return (
+                            <View style={styles.listItem}>
+                                <ViewAddCardItem
+                                    deckName={data.title}
+                                    navigation={navigator}
+                                />
+                            </View>
+                        )
+                    case START_QUIZ:
+                        return (
+                            <View style={styles.listItem}>
+                                <ViewStartQuizItem
+                                    deckName={data.title}
+                                    navigation={navigator}
+                                />
+                            </View>
+                        )
+                    default:
+                        return (
+                            <View style={styles.listItem}>
+                                <Text>Nothing to show here!</Text>
+                            </View>
+                        )
+                }
+            }}
+            keyExtractor={(item)=>item}
+        />
     )
 }
 /*
-        <FlatList
-            data={ Object.values(decks) }
-            renderItem={({item}) =>
-                <TouchableOpacity onPress={ () =>
-                    this.props.navigation.navigate('SingleDeck', {singleView: true, title: item.title})
-                }>
-
-                    <Deck
-                        item={item}
-                        style={styles.listItem}
-                        listView
-                    />
-                </TouchableOpacity>
-            }
-            keyExtractor={(item)=>item.title}
-        />
 */
 
 
@@ -60,13 +136,12 @@ export default class Deck extends Component {
     render() {
         const { navigation } = this.props
 
-        console.log('Navigation!! ', navigation);
-
-
         if(!!navigation) {
             return (
                 <View>
-                    <SingleViewComponent data={{
+                    <SingleViewComponent
+                        navigator={navigation}
+                        data={{
                         title: navigation.getParam('title', ''),
                         questions: navigation.getParam('questions', [])
                     }}/>

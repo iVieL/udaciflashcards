@@ -75,6 +75,9 @@ const MainNavigator = createStackNavigator({
     },
     ViewQuestions: {
         screen: AddEntry
+    },
+    StartQuiz: {
+        screen: AddEntry
     }
 
 })
