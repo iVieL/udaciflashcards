@@ -18,13 +18,23 @@ export default class AddEntry extends Component {
     }
 
     render() {
+        const { navigation } = this.props
         const { decks } = this.state
 
-        return (
+        console.log('Add Entry', navigation);
+        if(!!navigation) {
+            return (
+                <View style={styles.container}>
+                    <Text>Hola mundo!</Text>
+                </View>
+            )
+        } else {
+            return (
             <View style={styles.container}>
-                <Text>{decks}</Text>
+                <Text>Loading</Text>
             </View>
-        )
+            )
+        }
     }
 
 }
