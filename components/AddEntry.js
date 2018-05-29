@@ -1,11 +1,22 @@
 import React, {Component} from 'react'
 import {getDecks} from "../utils/DataHandler";
-import {StyleSheet, View, Text} from "react-native";
+import {StyleSheet, View, Text, TextInput} from "react-native";
 
 export default class AddEntry extends Component {
     state = {
-        decks: null
+        decks: null,
+        question: '',
+        answer: ''
     }
+
+    static navigationOptions = ({ navigation }) => ({
+        title: `Add Card to ${navigation.state.params.deck}`,
+        headerTitleStyle : {textAlign: 'center',alignSelf:'center'},
+        headerStyle:{
+            backgroundColor:'green',
+        },
+    });
+
 
     componentDidMount() {
         getDecks()
@@ -17,15 +28,39 @@ export default class AddEntry extends Component {
             }).done()
     }
 
+    setQuestion = (question) => {
+        this.setState(() => ({
+            question
+        }))
+    }
+
+    setAnswer = (answer) => {
+        this.setState(() => ({
+            answer
+        }))
+    }
+
     render() {
         const { navigation } = this.props
-        const { decks } = this.state
+        const { question, answer } = this.state
 
-        console.log('Add Entry', navigation);
+        console.log('Add Entry', question, answer);
         if(!!navigation) {
             return (
                 <View style={styles.container}>
-                    <Text>Hola mundo!</Text>
+                    <Text>Question:</Text>
+                    <TextInput
+                        onChangeText={this.setQuestion}
+                        value={question}
+                        maxLenght={30}
+                    />
+                    <Text>Answer:</Text>
+                    <TextInput
+                        onChangeText={this.setAnswer}
+                        value={answer}
+                        maxLenght={30}
+                    />
+                    <Text>Hola mundo! {navigation.getParam('deck', 'NO_DECK')}</Text>
                 </View>
             )
         } else {
