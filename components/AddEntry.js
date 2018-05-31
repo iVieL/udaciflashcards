@@ -44,18 +44,19 @@ export default class AddEntry extends Component {
         const { navigation } = this.props
         const { question, answer } = this.state
 
-        console.log('Add Entry', question, answer);
         if(!!navigation) {
             return (
                 <View style={styles.container}>
                     <Text>Question:</Text>
                     <TextInput
+                        style={styles.input}
                         onChangeText={this.setQuestion}
                         value={question}
                         maxLenght={30}
                     />
                     <Text>Answer:</Text>
                     <TextInput
+                        style={styles.input}
                         onChangeText={this.setAnswer}
                         value={answer}
                         maxLenght={30}
@@ -79,7 +80,10 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
     },
+    input: {
+        height: 40,
+        borderColor: 'gray',
+        borderWidth: 1
+    }
 });
