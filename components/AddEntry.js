@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {getDecks} from "../utils/DataHandler";
-import {StyleSheet, View, Text, TextInput} from "react-native";
+import {StyleSheet, View, Text, TextInput, TouchableOpacity} from "react-native";
+import { purple, white } from "../utils/colors"
 
 export default class AddEntry extends Component {
     state = {
@@ -40,6 +41,12 @@ export default class AddEntry extends Component {
         }))
     }
 
+    submit = () => {
+        const { question, answer } = this.state
+        console.log('submitting', question, answer)
+
+    }
+
     render() {
         const { navigation } = this.props
         const { question, answer } = this.state
@@ -61,7 +68,12 @@ export default class AddEntry extends Component {
                         value={answer}
                         maxLenght={30}
                     />
-                    <Text>Hola mundo! {navigation.getParam('deck', 'NO_DECK')}</Text>
+                    <TouchableOpacity
+                        style={styles.androidSubmitBtn}
+                        onPress={this.submit}
+                    >
+                        <Text style={styles.submitBtnText}>Submit</Text>
+                    </TouchableOpacity>
                 </View>
             )
         } else {
@@ -85,5 +97,29 @@ const styles = StyleSheet.create({
         height: 40,
         borderColor: 'gray',
         borderWidth: 1
-    }
+    },
+    iosSubmitBtn: {
+        backgroundColor: purple,
+        padding: 10,
+        borderRadius: 7,
+        height: 45,
+        marginLeft: 40,
+        marginRight: 40,
+    },
+    androidSubmitBtn: {
+        backgroundColor: purple,
+        padding: 10,
+        borderRadius: 2,
+        height: 45,
+        marginLeft: 30,
+        marginRight: 30,
+        alignSelf: 'flex-end',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    submitBtnText: {
+        color: white,
+        fontSize: 22,
+        textAlign: 'center'
+    },
 });
