@@ -2,8 +2,10 @@ import React, {Component} from 'react'
 import {getDecks} from "../utils/DataHandler";
 import {StyleSheet, View, Text, TextInput, TouchableOpacity} from "react-native";
 import { purple, white } from "../utils/colors"
+import { connect } from 'react-redux'
 
-export default class AddEntry extends Component {
+
+class AddEntry extends Component {
     state = {
         decks: null,
         question: '',
@@ -42,9 +44,19 @@ export default class AddEntry extends Component {
     }
 
     submit = () => {
+        const { navigation } = this.props
         const { question, answer } = this.state
-        console.log('submitting', question, answer)
+        console.log('submitting', question, answer, navigation.state.params.deck)
+        this.setState(() => ({
+            question: '',
+            answer: ''
+        }))
 
+        this.back()
+    }
+
+    back = () => {
+        this.props.navigation.goBack()
     }
 
     render() {
@@ -123,3 +135,11 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
 });
+
+function mapStateToProps(state) {
+    return {
+
+    }
+
+}
+export default connect(mapStateToProps)(AddEntry)

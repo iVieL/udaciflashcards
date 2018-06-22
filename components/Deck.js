@@ -32,7 +32,7 @@ class ViewAddCardItem extends Component {
 
         return (
             <TouchableOpacity onPress={() =>
-                navigation.navigate(
+                navigation.push(
                     'AddQuestion',
                     {
                         deck: deckName })}>

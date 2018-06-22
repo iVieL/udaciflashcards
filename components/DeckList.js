@@ -36,7 +36,7 @@ export default class DeckList extends Component {
                     data={ Object.values(decks) }
                     renderItem={({item}) =>
                         <TouchableOpacity onPress={ () =>
-                            this.props.navigation.navigate('SingleDeck', {
+                            this.props.navigation.push('SingleDeck', {
                                 title: item.title,
                                 questions: item.questions
                             })

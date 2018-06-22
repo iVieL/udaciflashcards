@@ -35,6 +35,13 @@ function getDummyData() {
     return data
 }
 
+export function generateNewCard(data, deck, question, answer) {
+    return {
+        question,
+        answer
+    }
+}
+
 export function retrieveData(results) {
     const data = results === null
         ? getDummyData()
