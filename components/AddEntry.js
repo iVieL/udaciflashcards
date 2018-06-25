@@ -3,11 +3,11 @@ import {getDecks} from "../utils/DataHandler";
 import {StyleSheet, View, Text, TextInput, TouchableOpacity} from "react-native";
 import { purple, white } from "../utils/colors"
 import { connect } from 'react-redux'
+import { addCard } from '../_actions'
 
 
 class AddEntry extends Component {
     state = {
-        decks: null,
         question: '',
         answer: ''
     }
@@ -22,13 +22,6 @@ class AddEntry extends Component {
 
 
     componentDidMount() {
-        getDecks()
-            .then((json) => {
-                console.log('setting state: ', json)
-                this.setState(() => ({
-                    decks: JSON.stringify(json)
-                }))
-            }).done()
     }
 
     setQuestion = (question) => {
@@ -46,13 +39,23 @@ class AddEntry extends Component {
     submit = () => {
         const { navigation } = this.props
         const { question, answer } = this.state
-        console.log('submitting', question, answer, navigation.state.params.deck)
+        const deck = navigation.state.params.deck
+        //console.log('submitting', question, answer, navigation.state.params.deck)
+
+        this.props.dispatch(addCard({
+            question,
+            answer
+        },
+            deck))
+
         this.setState(() => ({
             question: '',
             answer: ''
         }))
 
         this.back()
+
+        //todo: save to DB
     }
 
     back = () => {

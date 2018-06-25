@@ -135,6 +135,8 @@ export default class Deck extends Component {
 
     render() {
         const { navigation } = this.props
+        const title = navigation.getParam('title', '')
+        const questions = navigation.getParam('questions', [])
 
         if(!!navigation) {
             return (
@@ -142,8 +144,8 @@ export default class Deck extends Component {
                     <SingleViewComponent
                         navigator={navigation}
                         data={{
-                        title: navigation.getParam('title', ''),
-                        questions: navigation.getParam('questions', [])
+                        title: title,
+                        questions: questions
                     }}/>
                 </View>
             )

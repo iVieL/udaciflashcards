@@ -2,19 +2,24 @@ import React, {Component} from 'react'
 import {StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
 import {getDecks} from "../utils/DataHandler";
 import DeckSummary from "./DeckSummary";
+import { connect } from 'react-redux'
+import { receiveDecks } from "../_actions";
 
-export default class DeckList extends Component {
+class DeckList extends Component {
     state = {
         decks: null
     }
 
     componentDidMount() {
         getDecks()
-            .then((json) => {
+            .then((decks) =>
+                this.props.dispatch(receiveDecks(decks))
+            )
+            .then((list) => {
                 this.setState(() => ({
-                    decks: json
+                    decks: list.decks
                 }))
-            }).done()
+            })
     }
 
     render() {
@@ -28,6 +33,7 @@ export default class DeckList extends Component {
             )
         }
 
+        //TODO: debo actualizar el count de preguntas en el nivel siguiente, no pasar de aca
         console.log('Decks length: ', Object.keys(decks).length);
 
         return (
@@ -65,3 +71,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
 });
+
+
+export default connect()(DeckList)
