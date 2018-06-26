@@ -1,7 +1,6 @@
 import { NEW_CARD, GET_DECKS } from '../_actions'
 
 function entries(state = {}, action) {
-    console.log('State? ', state);
     const { deck, card} = action
     switch (action.type) {
         case NEW_CARD:

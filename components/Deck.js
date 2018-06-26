@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {getDecks} from "../utils/DataHandler";
+import { connect } from 'react-redux'
 
 
 class ViewCountQuestionItem extends Component {
@@ -85,7 +86,7 @@ function SingleViewComponent( { data, navigator }) {
                         return (
                             <View style={styles.listItem}>
                                 <ViewCountQuestionItem
-                                    counter={data.questions.length}
+                                    counter={data.questions}
                                     navigation={navigator}/>
                             </View>
                         )
@@ -123,7 +124,7 @@ function SingleViewComponent( { data, navigator }) {
 */
 
 
-export default class Deck extends Component {
+class Deck extends Component {
 
     static navigationOptions = ({ navigation }) => ({
         title: `${navigation.state.params.title}`,
@@ -133,19 +134,29 @@ export default class Deck extends Component {
         },
     });
 
+/*
+    componentDidMount() {
+        const { navigation } = this.props
+        const title = navigation.getParam('title', '')
+        console.log('DECK: ', title, this.props.decks[title]);
+
+    }
+*/
+
+
     render() {
         const { navigation } = this.props
         const title = navigation.getParam('title', '')
-        const questions = navigation.getParam('questions', [])
 
         if(!!navigation) {
+            const counter = this.props.decks[title].questions.length
             return (
                 <View>
                     <SingleViewComponent
                         navigator={navigation}
                         data={{
                         title: title,
-                        questions: questions
+                        questions: counter
                     }}/>
                 </View>
             )
@@ -179,3 +190,11 @@ const styles = StyleSheet.create({
         fontSize: 16
     }
 });
+
+function mapStateToProps(state) {
+    return {
+        decks: state.decks
+    }
+}
+
+export default connect(mapStateToProps)(Deck)
