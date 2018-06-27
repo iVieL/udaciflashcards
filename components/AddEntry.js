@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {getDecks} from "../utils/DataHandler";
+import { newCard, getDecks } from "../utils/DataHandler";
 import {StyleSheet, View, Text, TextInput, TouchableOpacity} from "react-native";
 import { purple, white } from "../utils/colors"
 import { connect } from 'react-redux'
@@ -42,11 +42,11 @@ class AddEntry extends Component {
         const deck = navigation.state.params.deck
         //console.log('submitting', question, answer, navigation.state.params.deck)
 
-        this.props.dispatch(addCard({
+        const card = {
             question,
             answer
-        },
-            deck))
+        }
+        this.props.dispatch(addCard(card, deck))
 
         this.setState(() => ({
             question: '',
@@ -55,7 +55,10 @@ class AddEntry extends Component {
 
         this.back()
 
-        //todo: save to DB
+        newCard(deck, deck, card)
+        getDecks().then( data => {
+            console.log('Data persisteda!! ', data);
+        })
     }
 
     back = () => {

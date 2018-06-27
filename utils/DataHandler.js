@@ -55,7 +55,7 @@ export function getDecks() {
         .then(retrieveData)
 }
 
-export function addCard( { category, title, question} ) {
+export function newCard( category, title, question ) {
     return AsyncStorage.mergeItem(FLASH_CARD_STORAGE_KEY, JSON.stringify({
         [category]: {
             [title]: {
@@ -63,7 +63,7 @@ export function addCard( { category, title, question} ) {
                     ...questions,
                     {
                         question: question.question,
-                        answer: question.answser
+                        answer: question.answer
                     }
                 ]
             }

@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {getDecks} from "../utils/DataHandler";
 import { connect } from 'react-redux'
 
 
