@@ -2,9 +2,8 @@ import { AsyncStorage } from 'react-native'
 
 export const FLASH_CARD_STORAGE_KEY = 'UdicyFlashcards:categories'
 
-function getDummyData() {
-
-    const data = {
+function getInitialData() {
+    return {
         React: {
             title: 'React',
             questions: [
@@ -28,6 +27,11 @@ function getDummyData() {
             ]
         }
     }
+}
+
+function getDummyData() {
+
+    const data = getInitialData();
 
     AsyncStorage.setItem(FLASH_CARD_STORAGE_KEY, JSON.stringify(data))
 
@@ -55,18 +59,16 @@ export function getDecks() {
         .then(retrieveData)
 }
 
-export function newCard( category, title, question ) {
+export function newCard( category, question ) {
+    //todo: recuperar items del storage, add el nuevo elemento y luego set al storage... no se podra con merge
     return AsyncStorage.mergeItem(FLASH_CARD_STORAGE_KEY, JSON.stringify({
         [category]: {
-            [title]: {
-                questions: [
-                    ...questions,
-                    {
-                        question: question.question,
-                        answer: question.answer
-                    }
-                ]
-            }
+            questions: [
+                {
+                    question: question.question,
+                    answer: question.answer
+                }
+            ]
         }
     }))
 }

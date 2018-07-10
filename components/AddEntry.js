@@ -55,10 +55,13 @@ class AddEntry extends Component {
 
         this.back()
 
-        newCard(deck, deck, card)
-        getDecks().then( data => {
-            console.log('Data persisteda!! ', data);
-        })
+        newCard(deck, card)
+            .then( () =>{
+                console.log("I'm here without you!!😂👀 ")
+                getDecks().then( data => {
+                    console.log('Data Persistida: ', JSON.stringify(data));
+                })
+            })
     }
 
     back = () => {
