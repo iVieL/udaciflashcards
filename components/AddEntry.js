@@ -40,7 +40,6 @@ class AddEntry extends Component {
         const { navigation } = this.props
         const { question, answer } = this.state
         const deck = navigation.state.params.deck
-        //console.log('submitting', question, answer, navigation.state.params.deck)
 
         const card = {
             question,
@@ -56,12 +55,6 @@ class AddEntry extends Component {
         this.back()
 
         newCard(deck, card)
-            .then( () =>{
-                console.log("I'm here without you!!😂👀 ")
-                getDecks().then( data => {
-                    console.log('Data Persistida: ', JSON.stringify(data));
-                })
-            })
     }
 
     back = () => {
@@ -146,6 +139,7 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
+    console.log("mapStateToProps");
     return {
 
     }

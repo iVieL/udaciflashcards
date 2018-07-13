@@ -1,3 +1,5 @@
+import * as dataHandler from '../utils/DataHandler'
+
 import { NEW_CARD, GET_DECKS } from '../_actions'
 
 function entries(state = {}, action) {
@@ -7,19 +9,7 @@ function entries(state = {}, action) {
 
             return {
                 ...state,
-                decks: {
-                    ...state.decks,
-                    [deck]: {
-                        ...state.decks[deck],
-                        questions: [
-                            ...state.decks[deck].questions,
-                            {
-                                question: card.question,
-                                answer: card.answer
-                            }
-                        ]
-                    }
-                }
+                decks: dataHandler.addCard(state.decks, deck, card)
             };
         case GET_DECKS:
             return {

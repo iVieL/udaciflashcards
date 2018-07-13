@@ -29,6 +29,22 @@ function getInitialData() {
     }
 }
 
+export function addCard(decks, deck, card) {
+    return {
+    ...decks,
+        [deck]: {
+    ...decks[deck],
+            questions: [
+            ...decks[deck].questions,
+            {
+                question: card.question,
+                answer: card.answer
+            }
+        ]
+    }
+    }
+}
+
 function getDummyData() {
 
     const data = getInitialData();
@@ -37,13 +53,6 @@ function getDummyData() {
 
     console.log('SAVING DATA!!! CHECK THIS!!');
     return data
-}
-
-export function generateNewCard(data, deck, question, answer) {
-    return {
-        question,
-        answer
-    }
 }
 
 export function retrieveData(results) {
@@ -60,17 +69,11 @@ export function getDecks() {
 }
 
 export function newCard( category, question ) {
-    //todo: recuperar items del storage, add el nuevo elemento y luego set al storage... no se podra con merge
-    return AsyncStorage.mergeItem(FLASH_CARD_STORAGE_KEY, JSON.stringify({
-        [category]: {
-            questions: [
-                {
-                    question: question.question,
-                    answer: question.answer
-                }
-            ]
-        }
-    }))
+    getDecks()
+        .then((decks) => {
+            const newState = addCard(decks, category, question)
+            AsyncStorage.setItem(FLASH_CARD_STORAGE_KEY, JSON.stringify(newState))
+        })
 }
 
 export function addDeck( { category, title} ) {
@@ -90,8 +93,7 @@ export function addCategory( { category } ) {
         })
 }
 
-//TODO: remove Card?
-export function removeCard({category, title}) {
-
+export function removeAll() {
+    return AsyncStorage.removeItem(FLASH_CARD_STORAGE_KEY)
 }
 
