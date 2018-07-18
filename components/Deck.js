@@ -6,13 +6,13 @@ import { connect } from 'react-redux'
 class ViewCountQuestionItem extends Component {
 
     render() {
-        const { counter, navigation } = this.props
+        const { questions, navigation, deckName } = this.props
+        const counter = !!questions ? questions.length: 0;
+        console.log("view Questions for", deckName);
+
         return (
             <TouchableOpacity onPress={() =>
-                navigation.navigate(
-                    'ViewQuestions',
-                    {
-                        singleView: true })}>
+                navigation.navigate('ViewQuestions', { singleView: true, deckName, questions })}>
                 <View>
                     <Text style={styles.itemContentText}>
                         View Cards ({counter})
@@ -33,9 +33,7 @@ class ViewAddCardItem extends Component {
         return (
             <TouchableOpacity onPress={() =>
                 navigation.push(
-                    'AddQuestion',
-                    {
-                        deck: deckName })}>
+                    'AddQuestion', { deck: deckName })}>
                 <View>
                     <Text style={styles.itemContentText}>
                         Add Card
@@ -55,9 +53,7 @@ class ViewStartQuizItem extends Component {
         return (
             <TouchableOpacity onPress={() =>
                 navigation.navigate(
-                    'StartQuiz',
-                    {
-                        deck: deckName })}>
+                    'StartQuiz', { deck: deckName })}>
                 <View>
                     <Text style={styles.itemContentText}>
                         Start Quiz with this deck!
@@ -85,8 +81,10 @@ function SingleViewComponent( { data, navigator }) {
                         return (
                             <View style={styles.listItem}>
                                 <ViewCountQuestionItem
-                                    counter={data.questions}
-                                    navigation={navigator}/>
+                                    questions={ data.questions }
+                                    navigation={ navigator }
+                                    deckName={ data.title }
+                                />
                             </View>
                         )
                     case ADD_QUESTION:
@@ -148,14 +146,14 @@ class Deck extends Component {
         const title = navigation.getParam('title', '')
 
         if(!!navigation) {
-            const counter = this.props.decks[title].questions.length
+            const questions = this.props.decks[title].questions
             return (
                 <View>
                     <SingleViewComponent
                         navigator={navigation}
                         data={{
                         title: title,
-                        questions: counter
+                        questions: questions
                     }}/>
                 </View>
             )

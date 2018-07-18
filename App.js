@@ -8,6 +8,8 @@ import DeckList from './components/DeckList'
 import NewDeck from './components/NewDeck'
 import AddEntry from './components/AddEntry'
 import Deck from './components/Deck'
+import CardList from "./components/CardList";
+import FlashCard from "./components/FlashCard";
 
 
 /*
@@ -19,9 +21,9 @@ import Deck from './components/Deck'
 
     Specification:
     - Allow users to create a deck which can hold an unlimited number of cards
-    - Allow users to add a card to a specific deck
-    - The front of the card should display the question
-    - The back of the card should display the answer
+    + Allow users to add a card to a specific deck
+    + The front of the card should display the question
+    + The back of the card should display the answer
     - Users should be able to quiz themselves on a specific deck and receive a score once they're done.
     - Users should receive a notification to remind themselves to study if they haven't already for that day.
 
@@ -67,6 +69,9 @@ const MainNavigator = createStackNavigator({
     SingleDeck: {
         screen: Deck
     },
+    SingleCard: {
+        screen: FlashCard
+    },
     AddDeck: {
         screen: NewDeck
     },
@@ -74,7 +79,7 @@ const MainNavigator = createStackNavigator({
         screen: AddEntry
     },
     ViewQuestions: {
-        screen: AddEntry
+        screen: CardList
     },
     StartQuiz: {
         screen: AddEntry

@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { newCard, getDecks } from "../utils/DataHandler";
+import { newCard } from "../utils/DataHandler";
 import {StyleSheet, View, Text, TextInput, TouchableOpacity} from "react-native";
 import { purple, white } from "../utils/colors"
 import { connect } from 'react-redux'
@@ -20,9 +20,6 @@ class AddEntry extends Component {
         },
     });
 
-
-    componentDidMount() {
-    }
 
     setQuestion = (question) => {
         this.setState(() => ({
@@ -139,7 +136,6 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-    console.log("mapStateToProps");
     return {
 
     }
