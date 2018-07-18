@@ -20,6 +20,7 @@ export default class Quiz extends Component {
 
     componentDidMount() {
         const questions = this.props.navigation.getParam("questions");
+
         this.setState(() => ({
             questions: questions
         }));

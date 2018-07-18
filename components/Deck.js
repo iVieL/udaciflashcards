@@ -8,7 +8,6 @@ class ViewCountQuestionItem extends Component {
     render() {
         const { questions, navigation, deckName } = this.props
         const counter = !!questions ? questions.length: 0;
-        console.log("view Questions for", deckName);
 
         return (
             <TouchableOpacity onPress={() =>
@@ -26,9 +25,7 @@ class ViewCountQuestionItem extends Component {
 
 class ViewAddCardItem extends Component {
     render() {
-        //todo: pass deck id to here
         const { deckName, navigation } = this.props
-        console.log("Add Card to: ", deckName);
 
         return (
             <TouchableOpacity onPress={() =>
@@ -48,12 +45,12 @@ class ViewAddCardItem extends Component {
 
 class ViewStartQuizItem extends Component {
     render() {
-        const { deckName, navigation } = this.props
+        const { deckName, navigation, questions } = this.props
 
         return (
             <TouchableOpacity onPress={() =>
                 navigation.navigate(
-                    'StartQuiz', { deck: deckName })}>
+                    'StartQuiz', { deck: deckName, questions })}>
                 <View>
                     <Text style={styles.itemContentText}>
                         Start Quiz with this deck!
@@ -100,6 +97,7 @@ function SingleViewComponent( { data, navigator }) {
                         return (
                             <View style={styles.listItem}>
                                 <ViewStartQuizItem
+                                    questions={ data.questions }
                                     deckName={data.title}
                                     navigation={navigator}
                                 />
