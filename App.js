@@ -10,6 +10,7 @@ import AddEntry from './components/AddEntry'
 import Deck from './components/Deck'
 import CardList from "./components/CardList";
 import FlashCard from "./components/FlashCard";
+import Quiz from "./components/Quiz";
 
 
 /*
@@ -82,7 +83,7 @@ const MainNavigator = createStackNavigator({
         screen: CardList
     },
     StartQuiz: {
-        screen: AddEntry
+        screen: Quiz
     }
 
 })

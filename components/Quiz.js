@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {FlatList, StyleSheet, View} from "react-native";
 import FlashCard from "./FlashCard";
 
-export default class CardList extends Component {
+export default class Quiz extends Component {
     static navigationOptions = ({ navigation }) => ({
         title: `Quiz from ${navigation.state.params.deckName} Deck!`,
         headerTitleStyle : {textAlign: 'center',alignSelf:'center'},
