@@ -20,6 +20,7 @@ export default class FlashCard extends Component {
 
         const letter = front ? "Q:": "A:";
 
+        // TODO: handle view answer into a dialog, because a new a button to show it
         return (
             <View style={styles.flashCard}>
                 <TouchableOpacity onPress={this.flipCard}>
