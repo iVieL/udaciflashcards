@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import {Text, StyleSheet, View } from "react-native";
+import {Modal, Text, StyleSheet, View, TouchableHighlight } from "react-native";
 import FlashCard from "./FlashCard";
 import TextButton from "./TextButton";
 import { lightPurp, red } from "../utils/colors";
 
 
 export default class Quiz extends Component {
+    // noinspection JSUnusedGlobalSymbols
     static navigationOptions = ({ navigation }) => ({
         title: `Quiz from ${navigation.state.params.deckName} Deck!`,
         headerTitleStyle : {textAlign: 'center',alignSelf:'center'},
@@ -19,11 +20,11 @@ export default class Quiz extends Component {
         index: 0,
         questions: [],
         answers: [],
-        card: {}
+        card: {},
+        summaryModalVisible: false
     };
 
     componentDidMount() {
-        console.log('componentDidMount!!!!');
         const questions = this.props.navigation.getParam("questions");
 
         const { index } = this.state;
@@ -43,19 +44,21 @@ export default class Quiz extends Component {
         return questions[index];
     };
 
-    markAsCorrect = () => {
-        console.log('mark as correct!');
+    handleSummaryModal = (visible) => {
+        this.setState({summaryModalVisible: visible})
+    };
 
-        const { index, questions } = this.state;
+    markAs = (correct) => {
+        console.log('mark as ', correct ? 'correct!': 'incorrect!');
 
-        //todo: if index > questions.length, notify and go back!
+        const { index, questions, answers } = this.state;
+
+        answers[index] = correct ? 1: 0;
 
         const newIndex = index + 1;
-        console.log('valores: ', newIndex, questions.length);
-        //todo: trace correct answers before update status
 
         if(newIndex >= questions.length) {
-            console.log('volamos a la picha!');
+            this.handleSummaryModal(true);
         }
         else {
             const card = this.findCard(questions, newIndex);
@@ -67,16 +70,60 @@ export default class Quiz extends Component {
         }
     };
 
-    render() {
-        const { card } = this.state;
+    markAsCorrect = () => {
+        this.markAs(true);
+    };
 
-        //TODO: obtains question using index
-        //todo: handle correct/incorrect event
-        //todo: handle end of Quiz record
+    markAsIncorrect = () => {
+        this.markAs(false);
+    };
+
+    finishQuiz = () => {
+        console.log('sumary modal will be close');
+        this.handleSummaryModal(false);
+        const { navigation } = this.props;
+        //todo: persist statistics on storage
+        navigation.goBack();
+    };
+
+    buildSummaryModal = (visible) => {
+        const {answers} = this.state;
+        const correct = answers.filter((item) => item === 1).reduce((a, b) => a + b, 0);
+        const incorrect = answers.filter((item) => item === 0).reduce((a, b) => a + 1, 0);
+
+        return (
+            <View>
+                <Modal
+                    animationType='slide'
+                    transparent={false}
+                    visible={visible}
+                    onRequestClose={this.finishQuiz}
+                >
+                    <View style={styles.container}>
+                        <Text style={styles.titleText}>Summary Quiz</Text>
+                        <View style={{paddingTop: 20}}/>
+                        <Text style={styles.defaultText}>Correct answers: {correct}</Text>
+                        <Text style={styles.defaultText}>Incorrect answers: {incorrect}</Text>
+                        <View style={{paddingTop: 20}}/>
+                        <Text style={styles.midSizeText}>Keep learning folk!</Text>
+                        <View style={{paddingTop: 40}}/>
+                        <TouchableHighlight style={styles.defaultButton} onPress={this.finishQuiz}>
+                            <Text style={[styles.defaultText, {color: 'white'}]}>Continue</Text>
+                        </TouchableHighlight>
+                    </View>
+
+                </Modal>
+            </View>
+        )
+    };
+
+    render() {
+        const { card, summaryModalVisible } = this.state;
+
         if(!card) {
             return (
                 <View style={styles.container}>
-                    <Text>No cards available!</Text>
+                    <Text style={styles.defaultText}>No cards available!</Text>
                 </View>
 
             );
@@ -84,6 +131,7 @@ export default class Quiz extends Component {
 
         return (
             <View style={styles.container}>
+                {this.buildSummaryModal(summaryModalVisible)}
                 <FlashCard card={card} />
                 <TextButton
                     style={styles.correctButton}
@@ -91,7 +139,10 @@ export default class Quiz extends Component {
                 >
                     Correct!
                 </TextButton>
-                <TextButton style={styles.wrongButton}>
+                <TextButton
+                    style={styles.wrongButton}
+                    onPress={this.markAsIncorrect}
+                >
                     Incorrect!
                 </TextButton>
             </View>
@@ -131,6 +182,23 @@ const styles = StyleSheet.create({
         marginRight: 30,
         justifyContent: 'center',
         alignItems: 'center'
-
+    },
+    defaultText: {
+        fontSize: 18,
+        textAlign: 'center'
+    },
+    midSizeText: {
+        fontSize: 21,
+        textAlign: 'center'
+    },
+    titleText: {
+        fontSize: 24,
+        textAlign: 'center',
+        fontWeight: 'bold'
+    },
+    defaultButton: {
+        alignItems: 'center',
+        backgroundColor: 'green',
+        padding: 10
     }
 });
