@@ -3,12 +3,13 @@ import {Modal, Text, StyleSheet, View, TouchableHighlight } from "react-native";
 import FlashCard from "./FlashCard";
 import TextButton from "./TextButton";
 import { lightPurp, red } from "../utils/colors";
+import { registerQuizResult , getQuizzes} from "../utils/DataHandler";
 
 
 export default class Quiz extends Component {
     // noinspection JSUnusedGlobalSymbols
     static navigationOptions = ({ navigation }) => ({
-        title: `Quiz from ${navigation.state.params.deckName} Deck!`,
+        title: `Quiz from ${navigation.state.params.deck} Deck!`,
         headerTitleStyle : {textAlign: 'center',alignSelf:'center'},
         headerStyle:{
             backgroundColor:'forestgreen',
@@ -25,6 +26,11 @@ export default class Quiz extends Component {
     };
 
     componentDidMount() {
+        console.log('component did mount!!!!');
+        getQuizzes().then((summary) => {
+            console.log('SUMMARY: ', summary);
+        });
+
         const questions = this.props.navigation.getParam("questions");
 
         const { index } = this.state;
@@ -82,7 +88,13 @@ export default class Quiz extends Component {
         console.log('sumary modal will be close');
         this.handleSummaryModal(false);
         const { navigation } = this.props;
-        //todo: persist statistics on storage
+
+        const {answers} = this.state;
+        const correct = answers.filter((item) => item === 1).reduce((a, b) => a + b, 0);
+        const incorrect = answers.filter((item) => item === 0).reduce((a, b) => a + 1, 0);
+
+        registerQuizResult(correct, incorrect, navigation.getParam("deck"), new Date());
+
         navigation.goBack();
     };
 
@@ -91,6 +103,7 @@ export default class Quiz extends Component {
         const correct = answers.filter((item) => item === 1).reduce((a, b) => a + b, 0);
         const incorrect = answers.filter((item) => item === 0).reduce((a, b) => a + 1, 0);
 
+        const score = (correct / answers.length) * 100; // percentage
         return (
             <View>
                 <Modal
@@ -105,6 +118,7 @@ export default class Quiz extends Component {
                         <Text style={styles.defaultText}>Correct answers: {correct}</Text>
                         <Text style={styles.defaultText}>Incorrect answers: {incorrect}</Text>
                         <View style={{paddingTop: 20}}/>
+                        <Text style={styles.midSizeText}>Your Score is: {score.toFixed(2)}%</Text>
                         <Text style={styles.midSizeText}>Keep learning folk!</Text>
                         <View style={{paddingTop: 40}}/>
                         <TouchableHighlight style={styles.defaultButton} onPress={this.finishQuiz}>

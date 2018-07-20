@@ -1,6 +1,7 @@
 import { AsyncStorage } from 'react-native'
 
 export const FLASH_CARD_STORAGE_KEY = 'UdicyFlashcards:categories'
+export const FLASH_CARD_QUIZ_STORAGE_KEY = 'UdicyFlashcards:quizzes'
 
 function getInitialData() {
     return {
@@ -107,3 +108,42 @@ export function removeAll() {
     return AsyncStorage.removeItem(FLASH_CARD_STORAGE_KEY)
 }
 
+export function retrieveQuizData(results) {
+    const data = results === null
+        ? JSON.parse("{}")
+        : JSON.parse(results);
+
+    return data
+}
+
+export function getQuizzes() {
+    return AsyncStorage.getItem(FLASH_CARD_QUIZ_STORAGE_KEY)
+        .then(retrieveQuizData)
+}
+
+export function registerQuizResult(correct, incorrect, deck, date) {
+    getQuizzes()
+        .then((data) => {
+            const checkDeck = data[deck];
+            if(checkDeck) {
+                AsyncStorage.mergeItem(FLASH_CARD_QUIZ_STORAGE_KEY, JSON.stringify({
+                    [deck]: [
+                        ...data[deck],
+                        {
+                            event_time: date.toISOString(),
+                            correct,
+                            incorrect
+                        }]
+                }))
+            } else {
+                AsyncStorage.mergeItem(FLASH_CARD_QUIZ_STORAGE_KEY, JSON.stringify({
+                    [deck]: [
+                        {
+                            event_time: date.toISOString(),
+                            correct,
+                            incorrect
+                        }]
+                }))
+            }
+        });
+}
