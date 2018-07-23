@@ -132,7 +132,7 @@ export default class Quiz extends Component {
     };
 
     render() {
-        const { card, summaryModalVisible } = this.state;
+        const { card, summaryModalVisible, questions, index } = this.state;
 
         if(!card) {
             return (
@@ -144,21 +144,29 @@ export default class Quiz extends Component {
         }
 
         return (
-            <View style={styles.container}>
-                {this.buildSummaryModal(summaryModalVisible)}
-                <FlashCard card={card} />
-                <TextButton
-                    style={styles.correctButton}
-                    onPress={this.markAsCorrect}
-                >
-                    Correct!
-                </TextButton>
-                <TextButton
-                    style={styles.wrongButton}
-                    onPress={this.markAsIncorrect}
-                >
-                    Incorrect!
-                </TextButton>
+            <View style={styles.mainContainer}>
+
+                <View>
+                    <Text style={[styles.tinyText, {marginTop: 40}]}>
+                        {index+1}/{questions.length}
+                    </Text>
+                </View>
+                <View style={styles.container}>
+                    {this.buildSummaryModal(summaryModalVisible)}
+                    <FlashCard card={card} />
+                    <TextButton
+                        style={styles.correctButton}
+                        onPress={this.markAsCorrect}
+                    >
+                        Correct!
+                    </TextButton>
+                    <TextButton
+                        style={styles.wrongButton}
+                        onPress={this.markAsIncorrect}
+                    >
+                        Incorrect!
+                    </TextButton>
+                </View>
             </View>
         )
     }
@@ -170,6 +178,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#e4ffe0',
         alignItems: 'center',
         justifyContent: 'center',
+        alignSelf: 'stretch'
+    },
+    mainContainer: {
+        flex: 1,
+        backgroundColor: '#e4ffe0',
+        alignItems: 'center',
+        justifyContent: 'space-between',
     },
     correctButton: {
         color: lightPurp,
@@ -179,6 +194,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         padding: 10,
         height: 45,
+        width: 150,
         marginLeft: 30,
         marginRight: 30,
         justifyContent: 'center',
@@ -192,6 +208,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         padding: 10,
         height: 45,
+        width: 150,
         marginLeft: 30,
         marginRight: 30,
         justifyContent: 'center',
@@ -199,6 +216,10 @@ const styles = StyleSheet.create({
     },
     defaultText: {
         fontSize: 18,
+        textAlign: 'center'
+    },
+    tinyText: {
+        fontSize: 16,
         textAlign: 'center'
     },
     midSizeText: {

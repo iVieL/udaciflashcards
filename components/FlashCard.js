@@ -18,19 +18,19 @@ export default class FlashCard extends Component {
         const { card } = this.props;
         const { front } = this.state;
 
-        const letter = front ? "Q:": "A:";
-
-        // TODO: handle view answer into a dialog, because a new a button to show it
         return (
             <View style={styles.flashCard}>
                 <TouchableOpacity onPress={this.flipCard}>
                     <Text style={styles.flashCardText}>
-                        {letter}
                         {front
                             ? <Text>{card.question}</Text>
                             : <Text>{card.answer}</Text>
                         }
                     </Text>
+                    {front
+                        ? <Text style={[styles.flashCardFlipText, {color: 'green'}]}>Answer</Text>
+                        : <Text style={[styles.flashCardFlipText, {color: 'red'}]}>Question</Text>
+                    }
                 </TouchableOpacity>
             </View>
         )
@@ -45,9 +45,16 @@ const styles = StyleSheet.create({
         marginRight: 10,
         marginTop: 15,
         justifyContent: 'center',
+        height: 100,
+        alignSelf: 'stretch'
     },
     flashCardText: {
-        fontSize: 20
+        fontSize: 18
+    },
+    flashCardFlipText: {
+        fontSize: 15,
+        justifyContent: 'center',
+        paddingTop: 10
     }
 });
 

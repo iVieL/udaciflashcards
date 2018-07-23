@@ -53,7 +53,7 @@ class ViewStartQuizItem extends Component {
                     'StartQuiz', { deck: deckName, questions })}>
                 <View>
                     <Text style={styles.itemContentText}>
-                        Start Quiz with this deck!
+                        Start Quiz
                     </Text>
 
                 </View>
@@ -175,14 +175,15 @@ const styles = StyleSheet.create({
     },
     listItem: {
         height: 75,
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingTop: 20
     },
     itemTitle: {
         fontSize: 25
 
     },
     itemContentText: {
-        fontSize: 16
+        fontSize: 25
     }
 });
 
