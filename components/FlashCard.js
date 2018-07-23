@@ -28,8 +28,8 @@ export default class FlashCard extends Component {
                         }
                     </Text>
                     {front
-                        ? <Text style={[styles.flashCardFlipText, {color: 'green'}]}>Answer</Text>
-                        : <Text style={[styles.flashCardFlipText, {color: 'red'}]}>Question</Text>
+                        ? <Text style={[styles.flashCardFlipText, {color: 'green'}]}>Show Answer</Text>
+                        : <Text style={[styles.flashCardFlipText, {color: 'red'}]}>Show Question</Text>
                     }
                 </TouchableOpacity>
             </View>

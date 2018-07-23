@@ -87,12 +87,15 @@ export function newCard( category, question ) {
         })
 }
 
-export function newDeck( { category } ) {
-    getDecks()
-        .then((decks) => {
-            const newState = addDeck(decks, category)
-            AsyncStorage.setItem(FLASH_CARD_STORAGE_KEY, JSON.stringify(newState))
+export function newDeck(category) {
+    return AsyncStorage.mergeItem(FLASH_CARD_STORAGE_KEY, JSON.stringify({
+            [category]: {
+                title: category,
+                questions: []
+            }
         })
+
+    );
 }
 
 export function addCategory( { category } ) {

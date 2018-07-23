@@ -84,8 +84,26 @@ export default class Quiz extends Component {
         this.markAs(false);
     };
 
-    finishQuiz = () => {
-        console.log('sumary modal will be close');
+    finishQuizAndBack = () => {
+        return this.finishQuiz(true);
+    };
+
+    finishQuizAndTryAgain = () => {
+        return this.finishQuiz(false);
+    };
+
+    resetStatus = () => {
+        const {questions} = this.state;
+        const card = this.findCard(questions, 0);
+        this.setState(() => ({
+            index: 0,
+            answers: [],
+            card: card,
+            summaryModalVisible: false
+        }));
+    };
+
+    finishQuiz = (back) => {
         this.handleSummaryModal(false);
         const { navigation } = this.props;
 
@@ -95,7 +113,11 @@ export default class Quiz extends Component {
 
         registerQuizResult(correct, incorrect, navigation.getParam("deck"), new Date());
 
-        navigation.goBack();
+        if(back) {
+            navigation.goBack();
+        } else {
+            this.resetStatus();
+        }
     };
 
     buildSummaryModal = (visible) => {
@@ -110,7 +132,7 @@ export default class Quiz extends Component {
                     animationType='slide'
                     transparent={false}
                     visible={visible}
-                    onRequestClose={this.finishQuiz}
+                    onRequestClose={this.finishQuizAndBack}
                 >
                     <View style={styles.container}>
                         <Text style={styles.titleText}>Summary Quiz</Text>
@@ -121,8 +143,11 @@ export default class Quiz extends Component {
                         <Text style={styles.midSizeText}>Your Score is: {score.toFixed(2)}%</Text>
                         <Text style={styles.midSizeText}>Keep learning folk!</Text>
                         <View style={{paddingTop: 40}}/>
-                        <TouchableHighlight style={styles.defaultButton} onPress={this.finishQuiz}>
+                        <TouchableHighlight style={styles.defaultButton} onPress={this.finishQuizAndBack}>
                             <Text style={[styles.defaultText, {color: 'white'}]}>Continue</Text>
+                        </TouchableHighlight>
+                        <TouchableHighlight style={styles.defaultButton} onPress={this.finishQuizAndTryAgain}>
+                            <Text style={[styles.defaultText, {color: 'white'}]}>Try Again</Text>
                         </TouchableHighlight>
                     </View>
 
@@ -234,6 +259,7 @@ const styles = StyleSheet.create({
     defaultButton: {
         alignItems: 'center',
         backgroundColor: 'green',
-        padding: 10
+        padding: 10,
+        margin: 5
     }
 });

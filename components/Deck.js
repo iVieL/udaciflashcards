@@ -125,19 +125,9 @@ class Deck extends Component {
         title: `${navigation.state.params.title}`,
         headerTitleStyle : {textAlign: 'center',alignSelf:'center'},
         headerStyle:{
-            backgroundColor:'white',
+            backgroundColor:'#A88DFF'
         },
     });
-
-/*
-    componentDidMount() {
-        const { navigation } = this.props
-        const title = navigation.getParam('title', '')
-        console.log('DECK: ', title, this.props.decks[title]);
-
-    }
-*/
-
 
     render() {
         const { navigation } = this.props
@@ -146,7 +136,7 @@ class Deck extends Component {
         if(!!navigation) {
             const questions = this.props.decks[title].questions
             return (
-                <View>
+                <View style={styles.container}>
                     <SingleViewComponent
                         navigator={navigation}
                         data={{
