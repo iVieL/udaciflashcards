@@ -11,23 +11,24 @@ import Deck from './components/Deck'
 import CardList from "./components/CardList";
 import FlashCard from "./components/FlashCard";
 import Quiz from "./components/Quiz";
-import {clearLocalNotification, setLocalNotification} from "./utils/NotificationHandler";
+import {setLocalNotification} from "./utils/NotificationHandler";
+import DashBoard from "./components/DashBoard";
 
 
 /*
     TODO:
-    - Handle flashcards: it is part of a deck and has two sides, one for title/concept and the other with explanation
-    - Handle Deck: some specific theme/category of flashcards
-    - Handle Decks: user can have more than one category
-    - Handle quizzes on those decks
+    + Handle flashcards: it is part of a deck and has two sides, one for title/concept and the other with explanation
+    + Handle Deck: some specific theme/category of flashcards
+    + Handle Decks: user can have more than one category
+    + Handle quizzes on those decks
 
     Specification:
-    - Allow users to create a deck which can hold an unlimited number of cards
+    + Allow users to create a deck which can hold an unlimited number of cards
     + Allow users to add a card to a specific deck
     + The front of the card should display the question
     + The back of the card should display the answer
     + Users should be able to quiz themselves on a specific deck and receive a score once they're done.
-    - Users should receive a notification to remind themselves to study if they haven't already for that day.
+    + Users should receive a notification to remind themselves to study if they haven't already for that day.
 
     Views:
     1. Deck list view (default view)
@@ -60,7 +61,7 @@ const Tabs = createMaterialTopTabNavigator({
         screen: DeckList
     },
     'Dash Board': {
-        screen: NewDeck
+        screen: DashBoard
     }
 })
 
@@ -92,7 +93,6 @@ const MainNavigator = createStackNavigator({
 export default class App extends React.Component {
 
     componentDidMount() {
-        // clearLocalNotification();
         setLocalNotification();
     }
 
