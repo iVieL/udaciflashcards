@@ -11,6 +11,7 @@ import Deck from './components/Deck'
 import CardList from "./components/CardList";
 import FlashCard from "./components/FlashCard";
 import Quiz from "./components/Quiz";
+import {clearLocalNotification, setLocalNotification} from "./utils/NotificationHandler";
 
 
 /*
@@ -89,6 +90,11 @@ const MainNavigator = createStackNavigator({
 })
 
 export default class App extends React.Component {
+
+    componentDidMount() {
+        // clearLocalNotification();
+        setLocalNotification();
+    }
 
     render() {
 

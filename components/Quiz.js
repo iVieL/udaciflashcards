@@ -4,6 +4,7 @@ import FlashCard from "./FlashCard";
 import TextButton from "./TextButton";
 import { lightPurp, red } from "../utils/colors";
 import { registerQuizResult , getQuizzes} from "../utils/DataHandler";
+import {clearLocalNotification, setLocalNotification} from "../utils/NotificationHandler";
 
 
 export default class Quiz extends Component {
@@ -118,6 +119,10 @@ export default class Quiz extends Component {
         } else {
             this.resetStatus();
         }
+
+        // Clear notification
+        clearLocalNotification()
+            .then(setLocalNotification);
     };
 
     buildSummaryModal = (visible) => {
