@@ -5,7 +5,7 @@ import FlashCard from "./FlashCard";
 export default class CardList extends Component {
     static navigationOptions = ({ navigation }) => ({
         title: `Cards in ${navigation.state.params.deckName}`,
-        headerTitleStyle : {textAlign: 'center',alignSelf:'center'},
+        headerTitleStyle : {textAlign: 'center',alignSelf:'center', color: 'white'},
         headerStyle:{
             backgroundColor:'dodgerblue',
         },
@@ -33,7 +33,7 @@ export default class CardList extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#ffffd8',
+        backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
     }

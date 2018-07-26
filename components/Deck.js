@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import { connect } from 'react-redux'
+import CustomText from "./commons/CustomText";
 
 
 class ViewCountQuestionItem extends Component {
@@ -13,9 +14,9 @@ class ViewCountQuestionItem extends Component {
             <TouchableOpacity onPress={() =>
                 navigation.navigate('ViewQuestions', { singleView: true, deckName, questions })}>
                 <View>
-                    <Text style={styles.itemContentText}>
+                    <CustomText big >
                         View Cards ({counter})
-                    </Text>
+                    </CustomText>
 
                 </View>
             </TouchableOpacity>
@@ -32,9 +33,9 @@ class ViewAddCardItem extends Component {
                 navigation.push(
                     'AddQuestion', { deck: deckName })}>
                 <View>
-                    <Text style={styles.itemContentText}>
+                    <CustomText big>
                         Add Card
-                    </Text>
+                    </CustomText>
 
                 </View>
             </TouchableOpacity>
@@ -52,9 +53,9 @@ class ViewStartQuizItem extends Component {
                 navigation.navigate(
                     'StartQuiz', { deck: deckName, questions })}>
                 <View>
-                    <Text style={styles.itemContentText}>
+                    <CustomText big>
                         Start Quiz
-                    </Text>
+                    </CustomText>
 
                 </View>
             </TouchableOpacity>
@@ -123,7 +124,7 @@ class Deck extends Component {
 
     static navigationOptions = ({ navigation }) => ({
         title: `${navigation.state.params.title}`,
-        headerTitleStyle : {textAlign: 'center',alignSelf:'center'},
+        headerTitleStyle : {textAlign: 'center',alignSelf:'center', color: 'white'},
         headerStyle:{
             backgroundColor:'#A88DFF'
         },
@@ -149,7 +150,7 @@ class Deck extends Component {
         }
         return (
             <View>
-                <Text>Nothing to show!</Text>
+                <CustomText>Nothing to show!</CustomText>
             </View>
         )
 
@@ -168,13 +169,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingTop: 20
     },
-    itemTitle: {
-        fontSize: 25
-
-    },
-    itemContentText: {
-        fontSize: 25
-    }
 });
 
 function mapStateToProps(state) {

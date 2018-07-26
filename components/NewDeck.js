@@ -1,9 +1,11 @@
 import React, {Component} from 'react'
-import {StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, TextInput, View} from 'react-native';
 import {newDeck} from "../_actions";
 import {connect} from "react-redux";
 import  * as dataHandler from '../utils/DataHandler'
 import {purple, white} from "../utils/colors";
+import CustomText from "./commons/CustomText";
+import TextButton from "./commons/TextButton";
 
 class NewDeck extends Component {
     state = {
@@ -12,9 +14,10 @@ class NewDeck extends Component {
 
     static navigationOptions = ({ navigation }) => ({
         title: 'New Deck',
-        headerTitleStyle : {textAlign: 'center',alignSelf:'center'},
+        headerTitleStyle : {textAlign: 'center',alignSelf:'center', color: 'white'},
         headerStyle:{
             backgroundColor:'green',
+            headerTintColor: 'white'
         },
     });
 
@@ -49,25 +52,22 @@ class NewDeck extends Component {
         if(!!navigation) {
             return (
                 <View style={styles.container}>
-                    <Text>What is the title of your new Deck?</Text>
+                    <CustomText>What is the title of your new Deck?</CustomText>
                     <TextInput
                         style={styles.input}
                         onChangeText={this.setName}
                         value={name}
                         maxLenght={30}
                     />
-                    <TouchableOpacity
-                        style={styles.androidSubmitBtn}
-                        onPress={this.submit}
-                    >
-                        <Text style={styles.submitBtnText}>Submit</Text>
-                    </TouchableOpacity>
+                    <TextButton onPress={this.submit} style={styles.submitBtn}>
+                        Submit
+                    </TextButton>
                 </View>
             )
         } else {
             return (
                 <View style={styles.container}>
-                    <Text>Loading</Text>
+                    <CustomText title>Loading</CustomText>
                 </View>
             )
         }
@@ -86,29 +86,9 @@ const styles = StyleSheet.create({
         borderColor: 'gray',
         borderWidth: 1
     },
-    iosSubmitBtn: {
+    submitBtn: {
         backgroundColor: purple,
-        padding: 10,
-        borderRadius: 7,
-        height: 45,
-        marginLeft: 40,
-        marginRight: 40,
-    },
-    androidSubmitBtn: {
-        backgroundColor: purple,
-        padding: 10,
-        borderRadius: 2,
-        height: 45,
-        marginLeft: 30,
-        marginRight: 30,
-        alignSelf: 'flex-end',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    submitBtnText: {
-        color: white,
-        fontSize: 22,
-        textAlign: 'center'
+        width: 150
     },
 });
 

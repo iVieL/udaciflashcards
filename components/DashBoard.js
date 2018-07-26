@@ -3,6 +3,7 @@ import {StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native'
 import {connect} from "react-redux";
 import  * as dataHandler from '../utils/DataHandler'
 import {purple, white} from "../utils/colors";
+import CustomText from "./commons/CustomText";
 
 class DashBoard extends Component {
 
@@ -20,13 +21,13 @@ class DashBoard extends Component {
         if(!!navigation) {
             return (
                 <View style={styles.container}>
-                    <Text>Comming soon</Text>
+                    <CustomText title>Comming soon</CustomText>
                 </View>
             )
         } else {
             return (
                 <View style={styles.container}>
-                    <Text>Loading</Text>
+                    <CustomText>Loading</CustomText>
                 </View>
             )
         }

@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import CustomText from "./commons/CustomText";
 
 export default class FlashCard extends Component {
 
@@ -21,15 +22,16 @@ export default class FlashCard extends Component {
         return (
             <View style={styles.flashCard}>
                 <TouchableOpacity onPress={this.flipCard}>
-                    <Text style={styles.flashCardText}>
+                    <CustomText>
                         {front
-                            ? <Text>{card.question}</Text>
-                            : <Text>{card.answer}</Text>
+                            ? card.question
+                            : card.answer
                         }
-                    </Text>
+
+                    </CustomText>
                     {front
-                        ? <Text style={[styles.flashCardFlipText, {color: 'green'}]}>Show Answer</Text>
-                        : <Text style={[styles.flashCardFlipText, {color: 'red'}]}>Show Question</Text>
+                        ? <CustomText tiny style={{color: 'green'}}>Show Answer</CustomText>
+                        : <CustomText tiny style={{color: 'red'}}>Show Question</CustomText>
                     }
                 </TouchableOpacity>
             </View>
@@ -47,14 +49,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         height: 100,
         alignSelf: 'stretch'
-    },
-    flashCardText: {
-        fontSize: 18
-    },
-    flashCardFlipText: {
-        fontSize: 15,
-        justifyContent: 'center',
-        paddingTop: 10
     }
 });
 

@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import {Modal, Text, StyleSheet, View, TouchableHighlight } from "react-native";
 import FlashCard from "./FlashCard";
-import TextButton from "./TextButton";
-import { lightPurp, red } from "../utils/colors";
-import { registerQuizResult , getQuizzes} from "../utils/DataHandler";
+import TextButton from "./commons/TextButton";
+import {darkYellow, lightPurp, pink} from "../utils/colors";
+import { registerQuizResult } from "../utils/DataHandler";
 import {clearLocalNotification, setLocalNotification} from "../utils/NotificationHandler";
+import CustomText from "./commons/CustomText";
 
 
 export default class Quiz extends Component {
@@ -27,11 +28,6 @@ export default class Quiz extends Component {
     };
 
     componentDidMount() {
-        console.log('component did mount!!!!');
-        getQuizzes().then((summary) => {
-            console.log('SUMMARY: ', summary);
-        });
-
         const questions = this.props.navigation.getParam("questions");
 
         const { index } = this.state;
@@ -56,7 +52,7 @@ export default class Quiz extends Component {
     };
 
     markAs = (correct) => {
-        console.log('mark as ', correct ? 'correct!': 'incorrect!');
+        //console.log('mark as ', correct ? 'correct!': 'incorrect!');
 
         const { index, questions, answers } = this.state;
 
@@ -140,20 +136,20 @@ export default class Quiz extends Component {
                     onRequestClose={this.finishQuizAndBack}
                 >
                     <View style={styles.container}>
-                        <Text style={styles.titleText}>Summary Quiz</Text>
+                        <CustomText title>Summary Quiz</CustomText>
                         <View style={{paddingTop: 20}}/>
-                        <Text style={styles.defaultText}>Correct answers: {correct}</Text>
-                        <Text style={styles.defaultText}>Incorrect answers: {incorrect}</Text>
+                        <CustomText >Correct answers: {correct}</CustomText>
+                        <CustomText>Incorrect answers: {incorrect}</CustomText>
                         <View style={{paddingTop: 20}}/>
-                        <Text style={styles.midSizeText}>Your Score is: {score.toFixed(2)}%</Text>
-                        <Text style={styles.midSizeText}>Keep learning folk!</Text>
+                        <CustomText mid>Your Score is: {score.toFixed(2)}%</CustomText>
+                        <CustomText mid>Keep learning folk!</CustomText>
                         <View style={{paddingTop: 40}}/>
-                        <TouchableHighlight style={styles.defaultButton} onPress={this.finishQuizAndBack}>
-                            <Text style={[styles.defaultText, {color: 'white'}]}>Continue</Text>
-                        </TouchableHighlight>
-                        <TouchableHighlight style={styles.defaultButton} onPress={this.finishQuizAndTryAgain}>
-                            <Text style={[styles.defaultText, {color: 'white'}]}>Try Again</Text>
-                        </TouchableHighlight>
+                        <TextButton onPress={this.finishQuizAndBack} style={styles.defaultButton}>
+                            Continue
+                        </TextButton>
+                        <TextButton onPress={this.finishQuizAndTryAgain} style={styles.tryAgainButton}>
+                            Try Again
+                        </TextButton>
                     </View>
 
                 </Modal>
@@ -177,9 +173,9 @@ export default class Quiz extends Component {
             <View style={styles.mainContainer}>
 
                 <View>
-                    <Text style={[styles.tinyText, {marginTop: 40}]}>
+                    <CustomText tiny style={{marginTop: 40}}>
                         {index+1}/{questions.length}
-                    </Text>
+                    </CustomText>
                 </View>
                 <View style={styles.container}>
                     {this.buildSummaryModal(summaryModalVisible)}
@@ -205,66 +201,38 @@ export default class Quiz extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#e4ffe0',
+        backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
         alignSelf: 'stretch'
     },
     mainContainer: {
         flex: 1,
-        backgroundColor: '#e4ffe0',
+        backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
     },
     correctButton: {
-        color: lightPurp,
-        margin: 20,
-        borderRadius: 2,
-        borderColor: "#000",
-        borderWidth: 1,
-        padding: 10,
-        height: 45,
+        backgroundColor: lightPurp,
         width: 150,
-        marginLeft: 30,
-        marginRight: 30,
-        justifyContent: 'center',
-        alignItems: 'center'
     },
     wrongButton: {
-        color: red,
-        margin: 20,
-        borderRadius: 2,
-        borderColor: "#000",
-        borderWidth: 1,
-        padding: 10,
-        height: 45,
+        backgroundColor: pink,
         width: 150,
-        marginLeft: 30,
-        marginRight: 30,
-        justifyContent: 'center',
-        alignItems: 'center'
     },
     defaultText: {
         fontSize: 18,
         textAlign: 'center'
     },
-    tinyText: {
-        fontSize: 16,
-        textAlign: 'center'
-    },
-    midSizeText: {
-        fontSize: 21,
-        textAlign: 'center'
-    },
     titleText: {
-        fontSize: 24,
-        textAlign: 'center',
         fontWeight: 'bold'
     },
     defaultButton: {
-        alignItems: 'center',
         backgroundColor: 'green',
-        padding: 10,
-        margin: 5
+        width: 150,
+    },
+    tryAgainButton: {
+        backgroundColor: darkYellow,
+        width: 150,
     }
 });

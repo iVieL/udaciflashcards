@@ -1,11 +1,12 @@
 import React, {Component} from 'react'
-import {StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
-import {getDecks, removeAll} from "../utils/DataHandler";
+import {StyleSheet, View, FlatList, TouchableOpacity} from 'react-native';
+import {getDecks} from "../utils/DataHandler";
 import DeckSummary from "./DeckSummary";
 import { connect } from 'react-redux'
 import { receiveDecks } from "../_actions";
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
+import CustomText from "./commons/CustomText";
 
 class DeckList extends Component {
 
@@ -22,7 +23,7 @@ class DeckList extends Component {
         if (decks === null || !decks) {
             return (
                 <View>
-                    <Text>No Decks found!</Text>
+                    <CustomText>No Decks found!</CustomText>
                 </View>
             )
         }

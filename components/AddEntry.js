@@ -1,9 +1,11 @@
 import React, {Component} from 'react'
 import { newCard } from "../utils/DataHandler";
-import {StyleSheet, View, Text, TextInput, TouchableOpacity} from "react-native";
+import {StyleSheet, View, TextInput} from "react-native";
 import { purple, white } from "../utils/colors"
 import { connect } from 'react-redux'
 import { addCard } from '../_actions'
+import CustomText from "./commons/CustomText";
+import TextButton from "./commons/TextButton";
 
 
 class AddEntry extends Component {
@@ -14,7 +16,7 @@ class AddEntry extends Component {
 
     static navigationOptions = ({ navigation }) => ({
         title: `Add Card to ${navigation.state.params.deck}`,
-        headerTitleStyle : {textAlign: 'center',alignSelf:'center'},
+        headerTitleStyle : {textAlign: 'center',alignSelf:'center', color: 'white'},
         headerStyle:{
             backgroundColor:'green',
         },
@@ -65,32 +67,30 @@ class AddEntry extends Component {
         if(!!navigation) {
             return (
                 <View style={styles.container}>
-                    <Text>Question:</Text>
+                    <CustomText>Question</CustomText>
                     <TextInput
                         style={styles.input}
                         onChangeText={this.setQuestion}
                         value={question}
                         maxLenght={30}
                     />
-                    <Text>Answer:</Text>
+                    <CustomText>Answer</CustomText>
                     <TextInput
                         style={styles.input}
                         onChangeText={this.setAnswer}
                         value={answer}
                         maxLenght={30}
                     />
-                    <TouchableOpacity
-                        style={styles.androidSubmitBtn}
-                        onPress={this.submit}
-                    >
-                        <Text style={styles.submitBtnText}>Submit</Text>
-                    </TouchableOpacity>
+                    <TextButton onPress={this.submit} style={styles.submitBtn}>
+                        Submit
+                    </TextButton>
+
                 </View>
             )
         } else {
             return (
             <View style={styles.container}>
-                <Text>Loading</Text>
+                <CustomText>Loading</CustomText>
             </View>
             )
         }
@@ -109,29 +109,9 @@ const styles = StyleSheet.create({
         borderColor: 'gray',
         borderWidth: 1
     },
-    iosSubmitBtn: {
-        backgroundColor: purple,
-        padding: 10,
-        borderRadius: 7,
-        height: 45,
-        marginLeft: 40,
-        marginRight: 40,
-    },
-    androidSubmitBtn: {
-        backgroundColor: purple,
-        padding: 10,
-        borderRadius: 2,
-        height: 45,
-        marginLeft: 30,
-        marginRight: 30,
-        alignSelf: 'flex-end',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    submitBtnText: {
-        color: white,
-        fontSize: 22,
-        textAlign: 'center'
+    submitBtn: {
+        width: 150,
+        backgroundColor: purple
     },
 });
 

@@ -3,7 +3,7 @@ import {View} from 'react-native';
 import {createStore} from 'redux'
 import {Provider} from 'react-redux'
 import reducer from './_reducers'
-import { createMaterialTopTabNavigator, createStackNavigator } from 'react-navigation'
+import { createMaterialTopTabNavigator, createBottomTabNavigator, createStackNavigator } from 'react-navigation'
 import DeckList from './components/DeckList'
 import NewDeck from './components/NewDeck'
 import AddEntry from './components/AddEntry'
@@ -13,6 +13,8 @@ import FlashCard from "./components/FlashCard";
 import Quiz from "./components/Quiz";
 import {setLocalNotification} from "./utils/NotificationHandler";
 import DashBoard from "./components/DashBoard";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import {isIOS} from "./utils/helpers";
 
 
 /*
@@ -56,12 +58,31 @@ import DashBoard from "./components/DashBoard";
 
  */
 
-const Tabs = createMaterialTopTabNavigator({
+function getTabNavigator(conf) {
+    return isIOS() ?
+        createBottomTabNavigator(conf):
+        createMaterialTopTabNavigator(conf);
+}
+
+function getDeckIcon(icon) {
+    const os = isIOS() ? 'ios-'+icon: 'md-'+icon;
+    return (tintColor) => <Ionicons name={os} size={30} color={tintColor}/>;
+}
+
+const Tabs = getTabNavigator({
     Decks: {
-        screen: DeckList
+        screen: DeckList,
+        navigationOptions: {
+            tabBarLabel: 'Decks',
+            tabBarIcon: getDeckIcon('albums')
+        }
     },
-    'Dash Board': {
-        screen: DashBoard
+    DashBoard: {
+        screen: DashBoard,
+        navigationOptions: {
+            tabBarLabel: 'Dash Board',
+            tabBarIcon: getDeckIcon('stats')
+        }
     }
 })
 
